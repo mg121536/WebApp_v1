@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPS App</title>
+    <!-- フォントの読み込みとスタイル -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+    <!-- ファビコンとアイコン -->
+    <link rel="icon" href="img/NmbIcon.png" type="image/png" sizes="180x180">
+    <link rel="apple-touch-icon" href="img/NmbIcon.png">
+    <!-- スタイルシートとマニフェスト -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="manifest" href="manifest.json" /> -->
+    <script>
+        if (location.pathname !== '/' && location.pathname.startsWith('/index')) {
+          location.replace('/');
+        }
+    </script>
+</head>
+<body>
+    <div id="topButtons">
+        <button id="reloadButton" onclick="location.reload()" title="リロード">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6a6.003 6.003 0 0 1-5.659-4H5.06c.51 4.01 3.92 7 7.94 7 4.42 0 8-3.58 8-8s-3.58-8-8-8z"/>
+            </svg>
+        </button>
+        <button id="settingsIconButton" onclick="window.openSettings()" title="設定">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M12 8.4A3.6 3.6 0 1 0 12 15.6 3.6 3.6 0 0 0 12 8.4Zm10.2 3.6a7.2 7.2 0 0 0-.18-1.62l2.16-1.68-2.4-4.14-2.52 1.02a7.2 7.2 0 0 0-2.28-1.32l-.36-2.7H9.6l-.36 2.7a7.2 7.2 0 0 0-2.28 1.32L4.44 4.56 2.04 8.7l2.16 1.68a7.2 7.2 0 0 0 0 3.24L2.04 15.3l2.4 4.14 2.52-1.02a7.2 7.2 0 0 0 2.28 1.32l.36 2.7h4.8l.36-2.7a7.2 7.2 0 0 0 2.28-1.32l2.52 1.02 2.4-4.14-2.16-1.68a7.2 7.2 0 0 0 .18-1.62Z"/>
+            </svg>
+        </button>
+    </div>
+    <header>
+        <img id="logo" src="img/Nmb.png" alt="MinebeaMitsumiのロゴ">
+        <h1>IPS Application</h1>
+        <div id="graphOptions">
+            <label><input type="checkbox" id="sinCheckbox" checked onchange="toggleGraph()"> Sin</label>
+            <label><input type="checkbox" id="cosCheckbox" checked onchange="toggleGraph()"> Cos</label>
+            <label><input type="checkbox" id="sinNCheckbox" checked onchange="toggleGraph()"> SinN</label>
+            <label><input type="checkbox" id="cosNCheckbox" checked onchange="toggleGraph()"> CosN</label>
+        </div>
+    </header>
+    <main>
+        <div id="canvasContainer1">
+            <div id="canvas" class="canvas-group">
+                <canvas id="canvasAll" width="1600" height="800" style="display: block;"></canvas>
+                <canvas id="canvasGraph" width="1600" height="800" style="display: none;"></canvas>
+                <canvas id="canvasAngle" width="1600" height="800" style="display: none;"></canvas>
+            </div>
+            <div id="canvasTabs">
+                <button id="tab_all" onclick="showCanvas('all')" title="Combined Analog Output and Angle">All</button>
+                <button id="tab_graph" onclick="showCanvas('graph')" title="Analog Signal Only">Signal</button>
+                <button id="tab_angle" onclick="showCanvas('angle')" title="Angle Sensor Data">Angle</button>
+            </div>
+        </div>
+        <div id="controls">
+            <button id="wifiButton" onclick="toggleWifi()">START</button>
+        </div>
+        <section id="settingsModal" class="modal" tabindex="-1" onclick="closeSettings(event)">
+            <div class="modal-content" onclick="event.stopPropagation();">
+                <span class="close" onclick="closeSettings(event)">&times;</span>
+                <h2>設定</h2>
+                <div class="form-row">
+                    <label for="product">製品:</label>
+                    <select id="product" onchange="updateApplication()" onclick="event.stopPropagation();">
+                        <option value="IPS2550">IPS (IPS2550)</option>
+                        <option value="RAA2P3500">VIR (RAA2P3500)</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="device">デバイス:</label>
+                    <select id="device" onclick="event.stopPropagation();">
+                            <option value="iPhone">iPad/iPhone</option>
+                            <option value="Android">Android</option>
+                            <option value="Windows">Windows</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="connection">接続:</label>
+                    <select id="connection" onclick="event.stopPropagation();">
+                        <option value="wifi">無線(Wi-Fi)</option>
+                        <option value="wired">有線(USB)</option>
+                    </select>
+                </div>
+                <button onclick="closeSettings(event)">完了</button>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <address>© 2000-2025 MinebeaMitsumi Inc.</address>
+    </footer>
+    <!-- スクリプト読み込み -->
+    <script src="js/log.js" defer></script>
+    <script src="js/init.js" defer></script>
+    <script src="js/ui-control.js" defer></script>
+    <!-- <script src="js/resize.js" defer></script> -->
+    <script src="js/graph.js" defer></script>
+    <script src="js/serial.js" defer></script>
+    <script src="js/serial_mock.js" defer></script>
+    <!-- <script src="js/websocket.js" defer></script> -->
+    <script src="js/websocket_mock.js" defer></script>
+    <!-- Service Worker 登録は最後に読み込む -->
+    <!-- <script src="register-sw.js" defer></script> -->
+</body>
+</html>

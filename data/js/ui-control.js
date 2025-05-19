@@ -1,0 +1,88 @@
+// ui-control.js
+
+window.openSettings = openSettings;
+let isWifiOn = false;
+
+// ■ 設定モーダル操作
+function openSettings() 
+{
+    /* [LOG_TRACE] */
+    tracelog();
+
+    document.getElementById('settingsModal').style.display = "block";
+}
+
+// ■ ページタイトル変更
+function updateApplication() 
+{
+    /* [LOG_TRACE] */
+    tracelog();
+
+    const product = document.getElementById("product").value;
+    const titleElement = document.querySelector("title");
+    const h1Element = document.querySelector("header h1");
+
+    if (product === "RAA2P3500") 
+    {
+        titleElement.textContent = "VIRアプリケーション";
+        h1Element.textContent = "VIRアプリケーション";
+        enableABZDisplay(true);
+    } 
+    else 
+    {
+        titleElement.textContent = "IPSアプリケーション";
+        h1Element.textContent = "IPSアプリケーション";
+        enableABZDisplay(false);
+    }
+}
+
+// ■ 
+function closeSettings(event) 
+{
+    if (event) event.stopPropagation();
+    document.getElementById('settingsModal').style.display = "none";
+}
+
+// ■ 
+function enableABZDisplay(enable) 
+{
+    const display = document.getElementById('abzDisplay');
+    if (display) 
+    {
+        display.style.display = enable ? 'block' : 'none';
+    }
+}
+
+// ■ チェックボックスの状態を取得
+function toggleGraph() 
+{
+    /* [LOG_TRACE] */
+    tracelog();
+
+    const showSin = document.getElementById('sinCheckbox').checked;
+    const showCos = document.getElementById('cosCheckbox').checked;
+    const showSinN = document.getElementById('sinNCheckbox').checked;
+    const showCosN = document.getElementById('cosNCheckbox').checked;
+
+    // 状態に応じてグラフを更新
+    window.updateGraph(showSin, showCos, showSinN, showCosN);
+}
+
+// ■ START/STOPボタン切替
+function toggleWifi() 
+{
+    const button = document.getElementById('wifiButton');
+    if (isWifiOn) 
+    {
+        window.stopWifi();
+        button.textContent = "START";
+        button.style.backgroundColor = "green";
+    } 
+    else 
+    {
+        window.startWifi();
+        button.textContent = "STOP";
+        button.style.backgroundColor = "red";
+    }
+    isWifiOn = !isWifiOn;
+}
