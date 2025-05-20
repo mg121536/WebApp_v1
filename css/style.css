@@ -1,0 +1,381 @@
+/* ■ カラーテーマ（アクセントカラー） */
+
+:root {
+    --accent_color1: #004ea8;
+    --accent_color2: #bd0d1d;
+    --accent_color3: #1d1d1e;
+    --accent_color4: #ffffff;
+}
+
+/* ■ Base Style */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans JP', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #222;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    height: 100vh;
+    min-height: 100vh;
+    overflow: auto;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+/* ■ Top Buttons */
+
+#topButtons {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+#topButtons button {
+    all: unset;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s;
+    cursor: pointer;
+}
+
+#topButtons button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--accent_coler1, #00bfff); /* アクセントカラーに */
+}
+
+#topButtons button:active {
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: scale(0.95);
+}
+
+#topButtons svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    pointer-events: none;
+}
+
+/* ■ Setting Buttons */
+
+#settingsIconButton {
+    all: unset;
+    width: 6px;
+    height: 6px;
+    background-color: #ffffffdd;
+    border: 1px solid #aaa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: 0.2s ease;
+    cursor: pointer;
+}
+
+#settingsIconButton:hover {
+    background-color: #ffffffee;
+}
+
+#settingsIconButton:active {
+    background-color: #ccc;
+}
+
+#settingsIconButton img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+/* ■ Header */
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #111;
+    width: 100%;
+}
+
+#logo {
+    height: 50px;
+    width: auto;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    margin: 0;
+}
+
+#graphOptions {
+    margin-top: 10px;
+    font-size: 14px;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#graphOptions label {
+    margin-right: 10px;
+}
+
+#graphOptions input[type="checkbox"] {
+    accent-color: var(--accent_coler1);
+}
+
+/* ■ Canvas Area */
+#canvasContainer1 {
+    width: 100%;
+    margin: 0;
+    margin-top: -4px;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.canvas-group {
+    flex: 1;
+    width: 100%;
+    position: relative;
+    margin-top: 0;
+}
+
+#canvasContainer1 canvas {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    display: none;
+    border: none;
+}
+
+#canvasContainer1 canvas.active {
+    display: block;
+}
+
+/* ■ Canvas Tabs */
+
+#canvasTabs {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    background-color: #111;
+    border-top: 1px solid #222;
+    padding: 2px 0 0 0;
+    position: relative;
+    margin-bottom: 0;
+}
+
+#canvasTabs button {
+    padding: 8px 20px;
+    font-size: 14px;
+    background-color: #2a2a2a;
+    color: #bbb;
+    border: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    top: 6px;
+    z-index: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6) inset;
+}
+
+#canvasTabs button:hover {
+    background-color: #004ea8;
+    color: #fff;
+}
+
+#canvasTabs button.active {
+    background-color: #004ea8;
+    color: #fff;
+    top: 0;
+    z-index: 2;
+    box-shadow: 
+        0 -2px 0 var(--accent_coler1) inset,
+        0 0 8px var(--accent_coler1);
+}
+
+/* ■ Controls Section */
+
+#controls {
+    text-align: center;
+}
+
+/* ■ Modal */
+
+#settingsModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    background: #333;
+    border-radius: 8px;
+    z-index: 1000;
+    color: #fff;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.modal-content {
+    position: relative;
+    padding: 20px;
+}
+
+#settingsModal label,
+#settingsModal select,
+#settingsModal button {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+#settingsModal .form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#settingsModal .form-row label {
+    width: 80px;
+    margin-right: 10px;
+    text-align: left;
+    flex-shrink: 0;
+}
+
+#settingsModal .form-row select {
+    flex-grow: 1;
+    padding: 4px;
+    font-size: 14px;
+    border-radius: 4px;
+    background-color: #222;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+/* モーダルの×ボタン */
+
+.close {
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.close:hover {
+    color: red;
+}
+
+.close:focus-visible {
+    outline: 2px solid #fff;
+}
+
+/* ■ Footer */
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    background-color: #111;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ■ Button Styles（共通） */
+
+button {
+    background-color: var(--accent_coler1);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin: 10px;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #888;
+}
+
+button:active {
+    background-color: #444;
+}
+
+/* ■ Media Queries */
+
+@media (max-width: 768px) {
+    #canvasContainer1 canvas {
+        max-width: none;
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    #canvasContainer1 canvas {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    h1 {
+        font-size: 20px;
+    }
+    button {
+        padding: 12px;
+        font-size: 18px;
+        margin: 5px 0;
+    }
+}
