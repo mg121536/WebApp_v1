@@ -15,6 +15,8 @@ const LOG_SETTINGS =
 };
 let traceCount;
 
+window.currentMode = null;
+
 // ■ ログ出力
 // 使用方法: 
 // log('debug' | 'info' | 'warn' | 'error', メッセージ);
@@ -69,3 +71,28 @@ window.tracelog = LOG_TRACE
         console.log(`[${timestamp}] [TRACE ${traceCount}] Function: ${functionName}, File: ${fileName}, Line: ${lineNumber}`);
     }
     : function() {};
+
+function customLog(level, message) 
+{
+    if (window.currentMode !== 'console') return;
+
+    const timestamp = new Date().toISOString();
+    const upperLevel = level.toUpperCase();
+    const formatted = `[${timestamp}] [${upperLevel}] ${message}`;
+
+    const logContainer = document.getElementById('consoleContainer');
+    const logEl = document.getElementById('consoleLog');
+
+    if (logContainer) logContainer.style.display = 'block';
+    if (logEl) 
+    {
+        const lines = logEl.textContent.split('\n').filter(line => line.trim() !== '');
+        lines.push(formatted);
+
+        const MAX_LINES = 100;
+        const trimmed = lines.slice(-MAX_LINES);  // 最新100件だけ残す
+
+        logEl.textContent = trimmed.join('\n') + '\n';
+        logEl.scrollTop = logEl.scrollHeight;
+    }
+}

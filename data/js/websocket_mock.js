@@ -14,31 +14,37 @@ window.startWifi = function startMockWifi()
 	if (window.mockInterval) clearInterval(window.mockInterval);
 
     window.mockInterval = setInterval(() => 
-	{
-		const t = Date.now() / 300;
+    {
+        const t = Date.now() / 300;
 
-		// 波形データの生成・スムース処理(Sin・Cos・SinN・CosN)
-		const A = smooth(2048 + 2048 * Math.sin(t), 'A');
-		const B = smooth(2048 + 2048 * Math.cos(t), 'B');
-		const C = smooth(2048 + 2048 * -Math.sin(t), 'C');
-		const D = smooth(2048 + 2048 * -Math.cos(t), 'D');
+        // 波形データの生成・スムース処理
+        window.A = smooth(2048 + 2048 * Math.sin(t), 'A');
+        window.B = smooth(2048 + 2048 * Math.cos(t), 'B');
+        window.C = smooth(2048 + 2048 * -Math.sin(t), 'C');
+        window.D = smooth(2048 + 2048 * -Math.cos(t), 'D');
 
-        if (A === null || B === null || C === null || D === null) return;
+        if (window.A === null || window.B === null || window.C === null || window.D === null) return;
 
-		// 角度データの生成
-		const angle = (Math.atan2(Math.sin(t), Math.cos(t)) * 180) / Math.PI;
+        // 角度データの生成
+        window.angle = (Math.atan2(Math.sin(t), Math.cos(t)) * 180) / Math.PI;
 
-        //resizeCanvas();
+        // 描画更新
+        updateActiveCanvas(window.A, window.B, window.C, window.D, window.angle);
 
-		// 描画更新
-        updateActiveCanvas(A, B, C, D, angle);
-
-		log('info', `MockData → Sin:${A.toFixed(0)}, 
-                                Cos:${B.toFixed(0)}, 
-                                SinN:${C.toFixed(0)}, 
-                                CosN:${D.toFixed(0)}, 
-                                Angle:${angle.toFixed(1)}°`);
-	}, MOCK_MAX_INTERVAL_MS);
+        log('info', `MockData → Sin:${window.A.toFixed(0)}, 
+                                Cos:${window.B.toFixed(0)}, 
+                                SinN:${window.C.toFixed(0)}, 
+                                CosN:${window.D.toFixed(0)}, 
+                                Angle:${window.angle.toFixed(1)}°`);
+        customLog(
+            'debug',
+            `Sin=${String(window.A.toFixed(0)).padStart(5)}  ` +
+            `Cos=${String(window.B.toFixed(0)).padStart(5)}  ` +
+            `SinN=${String(window.C.toFixed(0)).padStart(5)}  ` +
+            `CosN=${String(window.D.toFixed(0)).padStart(5)}  ` +
+            `Angle=${String(window.angle.toFixed(1)).padStart(6)}`
+        );
+    }, MOCK_MAX_INTERVAL_MS);
 };
 
 // ■ モックWi-Fiのデータ生成を停止

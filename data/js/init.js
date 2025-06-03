@@ -3,13 +3,12 @@
 // ■ 初期化
 document.addEventListener('DOMContentLoaded', () => 
 {
-    /* [LOG_TRACE] */
-    tracelog();
+    // /* [LOG_TRACE] */  tracelog();
 
     startWifi();
 });
 
 document.addEventListener('DOMContentLoaded', () => 
 {
-    log('info', "初期化完了");
+    // /* [LOG_TRACE] */  tracelog();
 });

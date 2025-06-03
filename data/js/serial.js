@@ -4,8 +4,7 @@ window.startSerial = startSerial;
 
 function startSerial() 
 {
-    /* [LOG_TRACE] */
-    tracelog();
+    // /* [LOG_TRACE] */  tracelog();
 
     if (navigator.serial) 
     {
@@ -34,8 +33,7 @@ function startSerial()
 
 async function readLoop(reader) 
 {
-    /* [LOG_TRACE] */
-    // tracelog();
+    // /* [LOG_TRACE] */  tracelog();
 
     const decoder = new TextDecoder();
     let buffer = "";

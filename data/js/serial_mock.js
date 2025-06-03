@@ -4,8 +4,7 @@ window.startSerial = startMockSerial;
 
 function startMockSerial() 
 {
-    /* [LOG_TRACE] */
-    tracelog();
+    // /* [LOG_TRACE] */  tracelog();
 
     const smoothBuffer = { A: [], B: [], C: [], D: [], maxLen: 5 };
 
@@ -42,8 +41,7 @@ function startMockSerial()
 
 window.stopMockSerial = function () 
 {
-    /* [LOG_TRACE] */
-    tracelog();
+    // /* [LOG_TRACE] */  tracelog();
 
     if (window.mockSerialInterval) 
     {

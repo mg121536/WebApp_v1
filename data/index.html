@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPS App</title>
-    <!-- フォントの読み込みとスタイル -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-    <!-- ファビコンとアイコン -->
-    <link rel="icon" href="img/NmbIcon.png" type="image/png" sizes="180x180">
+    <meta name="description" content="Inductive Sensor Application by MinebeaMitsumi">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>IPS Application | MinebeaMitsumi</title>
+
+    <link rel="icon" href="img/NmbIcon.png" type="image/png" sizes="32x32">
     <link rel="apple-touch-icon" href="img/NmbIcon.png">
-    <!-- スタイルシートとマニフェスト -->
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/style.css">
-    <!-- <link rel="manifest" href="manifest.json" /> -->
+
     <script>
         if (location.pathname !== '/' && location.pathname.startsWith('/index')) {
-          location.replace('/');
+            location.replace('/');
         }
     </script>
 </head>
+
 <body>
     <div id="topButtons">
-        <button id="reloadButton" onclick="location.reload()" title="リロード">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6a6.003 6.003 0 0 1-5.659-4H5.06c.51 4.01 3.92 7 7.94 7 4.42 0 8-3.58 8-8s-3.58-8-8-8z"/>
-            </svg>
-        </button>
-        <button id="settingsIconButton" onclick="window.openSettings()" title="設定">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M12 8.4A3.6 3.6 0 1 0 12 15.6 3.6 3.6 0 0 0 12 8.4Zm10.2 3.6a7.2 7.2 0 0 0-.18-1.62l2.16-1.68-2.4-4.14-2.52 1.02a7.2 7.2 0 0 0-2.28-1.32l-.36-2.7H9.6l-.36 2.7a7.2 7.2 0 0 0-2.28 1.32L4.44 4.56 2.04 8.7l2.16 1.68a7.2 7.2 0 0 0 0 3.24L2.04 15.3l2.4 4.14 2.52-1.02a7.2 7.2 0 0 0 2.28 1.32l.36 2.7h4.8l.36-2.7a7.2 7.2 0 0 0 2.28-1.32l2.52 1.02 2.4-4.14-2.16-1.68a7.2 7.2 0 0 0 .18-1.62Z"/>
-            </svg>
-        </button>
+        <button id="reloadButton" aria-label="リロード" title="リロード">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true" role="img">
+          <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6a6.003 6.003 0 0 1-5.659-4H5.06c.51 4.01 3.92 7 7.94 7 4.42 0 8-3.58 8-8s-3.58-8-8-8z"/>
+        </svg>
+      </button>
+        <button id="settingsIconButton" aria-label="設定" title="設定">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true" role="img">
+          <path d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.63l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.007 7.007 0 0 0-1.6-.94l-.36-2.54a.5.5 0 0 0-.5-.43h-3.84a.5.5 0 0 0-.5.43l-.36 2.54a7.007 7.007 0 0 0-1.6.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 9.85a.5.5 0 0 0 .12.63l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.5.5 0 0 0-.12.63l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.5.38 1.04.7 1.6.94l.36 2.54c.04.22.22.38.5.38h3.84c.28 0 .46-.16.5-.38l.36-2.54c.56-.24 1.1-.56 1.6-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.63l-2.03-1.58zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/>
+        </svg>
+      </button>
     </div>
+
     <header>
         <img id="logo" src="img/Nmb.png" alt="MinebeaMitsumiのロゴ">
         <h1>IPS Application</h1>
@@ -42,16 +46,137 @@
         </div>
     </header>
     <main>
-        <div id="canvasContainer1">
-            <div id="canvas" class="canvas-group">
-                <canvas id="canvasAll" width="1600" height="800" style="display: block;"></canvas>
-                <canvas id="canvasGraph" width="1600" height="800" style="display: none;"></canvas>
-                <canvas id="canvasAngle" width="1600" height="800" style="display: none;"></canvas>
+        <div id="mainLayout">
+            <!-- Canvas Area -->
+            <div id="canvasContainer">
+                <div id="canvas" class="canvas-group">
+                    <canvas id="canvasAll" width="1500" height="1000" style="width: 1500px; height: 1000px; display: block;"></canvas>
+                    <canvas id="canvasGraph" width="1500" height="1000" style="width: 1500px; height: 1000px; display: none;"></canvas>
+                    <canvas id="canvasAngle" width="1500" height="1000" style="width: 1500px; height: 1000px; display: none;"></canvas>
+                </div>
             </div>
+            <!-- console Area -->
+            <div id="consoleContainer" style="display: none;">
+                <h3 class="console-title">Console</h3>
+                <pre id="consoleLog" class="log-box"></pre>
+            </div>
+            <!-- Calibration -->
+            <div id="settingsView" style="display: none;">
+                <div id="calibrationPanel">
+                    <section class="graph-panel">
+                        <h2>Calibration(Sin / Cos)</h2>
+
+                        <!-- SIN スライダー -->
+                        <div class="slider-container">
+                            <div class="slider-block">
+                                <label for="sinMax">
+                                    SIN 最大値: <span id="sinMaxLabel">2000</span> mV
+                                </label><br>
+                                <input type="range" id="sinMax" min="0" max="5000" value="2000" step="10">
+                                <input type="number" id="sin_max_input" min="0" max="5000" value="2000" step="10"> mV
+                            </div>
+                            <div class="slider-block">
+                                <label for="sinMin">
+                                    SIN 最小値: <span id="sinMinLabel">-2000</span> mV
+                                </label><br>
+                                <input type="range" id="sinMin" min="-5000" max="0" value="-2000" step="10">
+                                <input type="number" id="sin_min_input" min="-5000" max="0" value="-2000" step="10"> mV
+                            </div>
+                        </div>
+
+                        <!-- COS スライダー -->
+                        <div class="slider-container">
+                            <div class="slider-block">
+                                <label for="cosMax">
+                                    COS 最大値: <span id="cosMaxLabel">2000</span> mV
+                                </label><br>
+                                <input type="range" id="cosMax" min="0" max="5000" value="2000" step="10">
+                                <input type="number" id="cos_max_input" min="0" max="5000" value="2000" step="10"> mV
+                            </div>
+                            <div class="slider-block">
+                                <label for="cosMin">
+                                    COS 最小値: <span id="cosMinLabel">-2000</span> mV
+                                </label><br>
+                                <input type="range" id="cosMin" min="-5000" max="0" value="-2000" step="10">
+                                <input type="number" id="cos_min_input" min="-5000" max="0" value="-2000" step="10"> mV
+                            </div>
+                        </div>
+
+                        <!-- Canvasで波形表示 -->
+                        <canvas id="waveformCanvas" width="800" height="300"></canvas>
+                    </section>
+
+                    <!-- 設定パネル -->
+                    <section class="settings-tab">
+
+                        <div class="section">
+                            <label for="polePairs">軸倍角：</label>
+                            <select id="polePairs">
+                                <option value="1">2X</option>
+                                <option value="2">3X</option>
+                                <option value="3">4X</option>
+                                <option value="4">5X</option>
+                                <option value="5">6X</option>
+                                <option value="6">7X</option>
+                            </select>
+                        </div>
+
+                        <!-- SIN 設定 -->
+                        <fieldset class="section">
+                            <legend>Sin</legend>
+                            <div class="setting-row">
+                                <label for="sin_acquired_max_input">取得最大値 (mV)</label>
+                                <input type="number" id="sin_acquired_max_input" value="0"> mV
+                            </div>
+                            <div class="setting-row">
+                                <label for="sin_max_input">最大値 　　(mV)</label>
+                                <input type="number" id="sin_max_input" value="0"> mV
+                            </div>
+                            <div class="setting-row">
+                                <label for="sin_min_input">最小値　　 (mV)</label>
+                                <input type="number" id="sin_min_input" value="0"> mV
+                            </div>
+                            <div class="setting-row">
+                                <label for="sin_acquired_min_input">取得最小値 (mV)</label>
+                                <input type="number" id="sin_acquired_min_input" value="0"> mV
+                            </div>
+                        </fieldset>
+
+                        <!-- COS 設定 -->
+                        <fieldset class="section">
+                            <legend>Cos</legend>
+                            <div class="setting-row">
+                                <label for="cos_acquired_max_input">取得最大値 (mV)</label>
+                                <input type="number" id="cos_acquired_max_input" value="0"> mV
+                            </div>
+                            <div class="setting-row">
+                                <label for="cos_max_input">最大値　　 (mV)</label>
+                                <input type="number" id="cos_max_input" value="0"> mV
+                            </div>
+                            <div class="setting-row">
+                                <label for="cos_min_input">最小値　　 (mV)</label>
+                                <input type="number" id="cos_min_input" value="0"> mV
+                            </div>
+                            <div class="setting-row">
+                                <label for="cos_acquired_min_input">取得最小値 (mV)</label>
+                                <input type="number" id="cos_acquired_min_input" value="0"> mV
+                            </div>
+                        </fieldset>
+
+                        <div class="section button-group">
+                            <button id="saveSettings">💾 設定を保存</button>
+                            <button id="resetSettings">♻️ 初期化</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- tab -->
             <div id="canvasTabs">
-                <button id="tab_all" onclick="showCanvas('all')" title="Combined Analog Output and Angle">All</button>
-                <button id="tab_graph" onclick="showCanvas('graph')" title="Analog Signal Only">Signal</button>
-                <button id="tab_angle" onclick="showCanvas('angle')" title="Angle Sensor Data">Angle</button>
+                <button id="tab_all" onclick="setActiveTab('all');" title="Display analog waveform and angle">All</button>
+                <button id="tab_graph" onclick="setActiveTab('graph');" title="Display analog waveform">Analog</button>
+                <button id="tab_angle" onclick="setActiveTab('angle');" title="Display angle">Angle</button>
+                <button id="tab_console" onclick="setActiveTab('console');" title="Display console log">Console</button>
+                <button id="tab_settings" onclick="setActiveTab('settings');" title="Display settings">Settings</button>
             </div>
         </div>
         <div id="controls">
@@ -64,43 +189,46 @@
                 <div class="form-row">
                     <label for="product">製品:</label>
                     <select id="product" onchange="updateApplication()" onclick="event.stopPropagation();">
-                        <option value="IPS2550">IPS (IPS2550)</option>
-                        <option value="RAA2P3500">VIR (RAA2P3500)</option>
-                    </select>
+                <option value="IPS2550">IPS (IPS2550)</option>
+                <option value="RAA2P3500">VIR (RAA2P3500)</option>
+                </select>
                 </div>
                 <div class="form-row">
                     <label for="device">デバイス:</label>
                     <select id="device" onclick="event.stopPropagation();">
-                            <option value="iPhone">iPad/iPhone</option>
-                            <option value="Android">Android</option>
-                            <option value="Windows">Windows</option>
-                    </select>
+                <option value="iPhone">iPad/iPhone</option>
+                <option value="Android">Android</option>
+                <option value="Windows">Windows</option>
+                </select>
                 </div>
                 <div class="form-row">
                     <label for="connection">接続:</label>
                     <select id="connection" onclick="event.stopPropagation();">
-                        <option value="wifi">無線(Wi-Fi)</option>
-                        <option value="wired">有線(USB)</option>
-                    </select>
+                <option value="wifi">無線(Wi-Fi)</option>
+                <option value="wired">有線(USB)</option>
+                </select>
                 </div>
-                <button onclick="closeSettings(event)">完了</button>
+                <button class="finish-button" onclick="closeSettings(event)">完了</button>
             </div>
         </section>
     </main>
     <footer>
         <address>© 2000-2025 MinebeaMitsumi Inc.</address>
     </footer>
-    <!-- スクリプト読み込み -->
+
+    <!-- Load script -->
     <script src="js/log.js" defer></script>
     <script src="js/init.js" defer></script>
     <script src="js/ui-control.js" defer></script>
-    <!-- <script src="js/resize.js" defer></script> -->
+    <script src="js/resize.js" defer></script>
     <script src="js/graph.js" defer></script>
+    <script src="js/calibration.js" defer></script>
     <script src="js/serial.js" defer></script>
     <script src="js/serial_mock.js" defer></script>
     <!-- <script src="js/websocket.js" defer></script> -->
     <script src="js/websocket_mock.js" defer></script>
-    <!-- Service Worker 登録は最後に読み込む -->
+    <!-- Service Worker -->
     <!-- <script src="register-sw.js" defer></script> -->
 </body>
+
 </html>

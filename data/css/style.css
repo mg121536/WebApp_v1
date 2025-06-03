@@ -1,163 +1,65 @@
 /* ■ カラーテーマ（アクセントカラー） */
 
 :root {
-    --accent_color1: #004ea8;
-    --accent_color2: #bd0d1d;
-    --accent_color3: #1d1d1e;
-    --accent_color4: #ffffff;
+    --font-family-base: 'Noto Sans JP', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* ■ Base Style */
 
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
+html {
+    height: 100%;
+    width: 100%;
+    font-family: var(--font-family-base);
+}
+
 body {
-    font-family: 'Noto Sans JP', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #222;
-    color: #f0f0f0;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: auto;
+    background-color: #000000;
+    color: #ffffff;
     align-items: stretch;
     justify-content: flex-start;
-    height: 100vh;
-    min-height: 100vh;
-    overflow: auto;
 }
 
 main {
     flex: 1;
-    width: 100%;
+    min-height: 50vh;
     display: flex;
     flex-direction: column;
     overflow: auto;
+    padding-bottom: 20px;
 }
 
-/* ■ Top Buttons */
-
-#topButtons {
-    position: fixed;
-    top: 12px;
-    right: 12px;
-    display: flex;
-    gap: 10px;
-    z-index: 1000;
-}
-
-#topButtons button {
-    all: unset;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.08);
-    color: #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s;
-    cursor: pointer;
-}
-
-#topButtons button:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-    color: var(--accent_coler1, #00bfff); /* アクセントカラーに */
-}
-
-#topButtons button:active {
-    background-color: rgba(255, 255, 255, 0.25);
-    transform: scale(0.95);
-}
-
-#topButtons svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-    pointer-events: none;
-}
-
-/* ■ Setting Buttons */
-
-#settingsIconButton {
-    all: unset;
-    width: 6px;
-    height: 6px;
-    background-color: #ffffffdd;
-    border: 1px solid #aaa;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    transition: 0.2s ease;
-    cursor: pointer;
-}
-
-#settingsIconButton:hover {
-    background-color: #ffffffee;
-}
-
-#settingsIconButton:active {
-    background-color: #ccc;
-}
-
-#settingsIconButton img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-}
-
-/* ■ Header */
-
-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: #111;
-    width: 100%;
-}
-
-#logo {
-    height: 50px;
-    width: auto;
-    margin-bottom: 10px;
-}
-
-h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
-    margin: 0;
-}
-
-#graphOptions {
-    margin-top: 10px;
-    font-size: 14px;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 8px 12px;
-    border-radius: 5px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-#graphOptions label {
-    margin-right: 10px;
-}
-
-#graphOptions input[type="checkbox"] {
-    accent-color: var(--accent_coler1);
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
 }
 
 /* ■ Canvas Area */
-#canvasContainer1 {
+
+#canvasContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
     width: 100%;
+    height: auto;
+    object-fit: contain;
     margin: 0;
     margin-top: -4px;
     padding: 0;
@@ -165,73 +67,366 @@ h1 {
     box-shadow: none;
 }
 
-.canvas-group {
-    flex: 1;
+#canvasContainer canvas {
     width: 100%;
-    position: relative;
-    margin-top: 0;
-}
-
-#canvasContainer1 canvas {
-    width: 100%;
-    aspect-ratio: 2 / 1;
-    display: none;
+    height: auto;
+    display: block;
     border: none;
 }
 
-#canvasContainer1 canvas.active {
+.canvas-group {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+    margin-top: 0;
+    margin: 0 auto;
+}
+
+.canvas-group canvas {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    display: block;
+    max-width: 100%;
+}
+
+#canvasAll,
+#canvasGraph,
+#canvasAngle {
+    display: none;
+}
+
+#canvasContainer .activeCanvas {
+    display: block !important;
+}
+
+#canvasAll {
+    width: 100%;
+    height: auto;
+}
+
+#canvasGraph:checked,
+#canvasAngle:checked {
     display: block;
 }
+
+#canvasGraph,
+#canvasAngle {
+    width: 70%;
+    height: auto;
+    display: none;
+}
+
+/* ■ Console Area */
+
+#consoleContainer {
+    display: none;
+    width: 100%;
+    padding: 0px;
+    background-color: #000;
+    border: 1px solid #0f0;
+    box-sizing: border-box;
+    margin-top: 20px;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#consoleContainer h3 {
+    margin: 0;
+    padding: 5px 10px;
+    color: #0f0;
+    font-family: monospace;
+    font-size: 16px;
+    background-color: #000;
+}
+
+#consoleContainer .console-title {
+    color: #0f0;
+}
+
+#consoleContainer .log-box {
+    font-family: monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #0f0;
+    background-color: #000;
+    padding: 10px;
+    border-radius: 4px;
+    height: calc(100% - 30px);
+    overflow-y: auto;
+}
+
+#mainLayout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* height: 100%; */
+    height: auto;
+    width: 100%;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 10px 16px;
+    flex-wrap: nowrap;
+}
+
+/* ■ setting Tabs >>> */
+
+#calibrationPanel {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+section.graph-panel {
+    background-color: #333333;
+    flex: 1 1 60%;
+    height: auto;
+    min-width: 300px;
+    box-sizing: border-box;
+    max-width: calc(100% - 360px);
+    padding: 24px;
+    border-radius: 8px;
+}
+
+.graph-panel canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-top: 20px;
+    background-color: #1e1e1e;
+    border-radius: 6px;
+}
+
+section.settings-tab {
+    background-color: #333333;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    flex: 1 1 35%;
+    min-width: 300px;
+    color: #ffffff;
+    font-family: var(--font-family-base);
+}
+
+/* セクションの間隔 */
+
+.settings-tab .section {
+    margin-bottom: 30px;
+}
+
+/* ラベルスタイル */
+
+.settings-tab label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #e0e0e0;
+}
+
+/* インプットとセレクト共通 */
+
+.settings-tab select,
+.settings-tab input[type="number"] {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: 1px solid #666;
+    ;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 14px;
+    width: 120px;
+    transition: border-color 0.2s;
+}
+
+.settings-tab input[type="number"]:focus,
+.settings-tab select:focus {
+    border-color: #004ea8;
+    outline: none;
+}
+
+/* fieldset デザイン */
+
+.settings-tab fieldset {
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 16px;
+    background-color: #222;
+}
+
+.settings-tab legend {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0 5px;
+    color: #3399ff;
+}
+
+/* 設定行 */
+
+.settings-tab .setting-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+/* ボタン */
+
+.settings-tab .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.settings-tab button {
+    background-color: #004ea8;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    min-width: 120px;
+}
+
+.settings-tab button:hover {
+    background-color: #1976d2;
+}
+
+.graph-panel canvas {
+    margin-top: 20px;
+}
+
+#saveSettings {
+    background-color: #1b8c3a;
+}
+
+#saveSettings:hover {
+    background-color: #218838;
+}
+
+#resetSettings {
+    background-color: #b02a37;
+}
+
+#resetSettings:hover {
+    background-color: #c82333;
+}
+
+/* ■ setting Tabs <<< */
 
 /* ■ Canvas Tabs */
 
 #canvasTabs {
+    height: auto;
+    flex-wrap: nowrap;
+    justify-content: center;
     width: 100%;
     display: flex;
-    justify-content: center;
     gap: 4px;
-    background-color: #111;
-    border-top: 1px solid #222;
-    padding: 2px 0 0 0;
+    background-color: #000000;
+    border-top: 1px solid #000000;
+    padding: 1px 5px 0 6px;
     position: relative;
     margin-bottom: 0;
 }
 
 #canvasTabs button {
-    padding: 8px 20px;
-    font-size: 14px;
-    background-color: #2a2a2a;
-    color: #bbb;
+    flex: 0 1 auto;
+    min-width: 80px;
+    max-width: 100%;
+    margin: 0;
+    padding: 8px 10px;
+    font-size: 16px;
+    background-color: #333333;
+    color: #cccccc;
     border: none;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
-    top: 6px;
+    top: 3px;
     z-index: 0;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6) inset;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45) inset;
+    flex-shrink: 1;
 }
 
 #canvasTabs button:hover {
     background-color: #004ea8;
-    color: #fff;
+    color: #ffffff;
 }
 
 #canvasTabs button.active {
     background-color: #004ea8;
-    color: #fff;
+    color: #ffffff;
     top: 0;
     z-index: 2;
-    box-shadow: 
-        0 -2px 0 var(--accent_coler1) inset,
-        0 0 8px var(--accent_coler1);
+    box-shadow: 0 -2px 0 #004ea8 inset, 0 0 8px #004ea8;
 }
 
 /* ■ Controls Section */
 
 #controls {
     text-align: center;
+}
+
+/* ■ STARTボタン専用スタイル */
+
+#wifiButton {
+    background-color: #004ea8;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    width: calc(100% - 20px);
+    margin: 10px auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#wifiButton:hover {
+    background-color: #888888;
+}
+
+#wifiButton:active {
+    background-color: #444444;
+}
+
+/* ■ モーダル完了ボタン専用スタイル */
+
+#settingsModal button.finish-button {
+    background-color: #004ea8;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#settingsModal button.finish-button:hover {
+    background-color: #888888;
+}
+
+#settingsModal button.finish-button:active {
+    background-color: #444444;
 }
 
 /* ■ Modal */
@@ -243,10 +438,10 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
-    background: #333;
+    background: #333333;
     border-radius: 8px;
     z-index: 1000;
-    color: #fff;
+    color: #ffffff;
     animation: fadeIn 0.3s ease;
 }
 
@@ -291,10 +486,9 @@ h1 {
 #settingsModal .form-row select {
     flex-grow: 1;
     padding: 4px;
-    font-size: 14px;
     border-radius: 4px;
-    background-color: #222;
-    color: #fff;
+    background-color: #000000;
+    color: #ffffff;
     border: 1px solid #555;
 }
 
@@ -302,7 +496,7 @@ h1 {
 
 .close {
     font-size: 24px;
-    color: #fff;
+    color: #ffffff;
     cursor: pointer;
     position: absolute;
     top: 10px;
@@ -310,72 +504,272 @@ h1 {
 }
 
 .close:hover {
-    color: red;
+    color: #bd0d1d;
 }
 
 .close:focus-visible {
-    outline: 2px solid #fff;
-}
-
-/* ■ Footer */
-
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    font-size: 12px;
-    color: #fff;
-    text-align: center;
-    padding: 5px;
-    background-color: #111;
-    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    outline: 2px solid #ffffff;
 }
 
 /* ■ Button Styles（共通） */
 
 button {
-    background-color: var(--accent_coler1);
-    color: #fff;
+    background-color: #004ea8;
+    color: #ffffff;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 8px;
     transition: all 0.3s ease;
-    margin: 10px;
-    width: 100%;
+    min-width: 200px;
+    max-width: 400px;
+    margin: 10px auto;
+    width: 90%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
-    background-color: #888;
+    background-color: #888888;
 }
 
 button:active {
-    background-color: #444;
+    background-color: #444444;
+}
+
+/* -------------------------------- */
+
+/* ■ topButtons                     */
+
+/* -------------------------------- */
+
+#topButtons {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+#topButtons button {
+    all: unset;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s;
+    cursor: pointer;
+}
+
+#topButtons button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #004ea8;
+}
+
+#topButtons button:active {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(0.95);
+}
+
+#topButtons svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    pointer-events: none;
+}
+
+#settingsIconButton {
+    width: 24px;
+    height: 24px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+#settingsIconButton:hover {
+    background-color: #ffffff;
+}
+
+#settingsIconButton:active {
+    background-color: #ccc;
+}
+
+header {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 60px;
+    /* border-bottom: 1px solid #004ea8; */
+}
+
+#logo {
+    display: block;
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto 10px auto;
+}
+
+header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+#graphOptions {
+    margin-top: 10px;
+    background-color: rgba(0, 0, 0, 0.45);
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#graphOptions label {
+    margin-right: 10px;
+}
+
+#graphOptions input[type="checkbox"] {
+    accent-color: #004ea8;
+}
+
+footer {
+    width: 100%;
+    padding: 0.5rem;
+    color: #ffffff;
+    text-align: center;
+    background-color: #000000;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 2.5rem;
+    border-top: 1px solid #004ea8;
 }
 
 /* ■ Media Queries */
 
-@media (max-width: 768px) {
-    #canvasContainer1 canvas {
-        max-width: none;
-        width: 100%;
-        height: auto;
-        display: block;
+/*
+  [TEST]
+  ・ 小型スマホ (縦・横向き)
+  ・ タブレット (縦・横向き)
+  ・ 小型デスクトップ (縦・横向き)
+  ・ 大型デスクトップ (縦・横向き)
+*/
+
+/* 小型スマホ（縦） */
+@media (max-width: 390px) and (orientation: portrait) {
+    #canvasTabs button {
+        font-size: 0.6rem;
     }
-    #canvasContainer1 canvas {
-        width: 100%;
-        height: auto;
-        display: block;
+    #logo {
+        max-width: 120px;
+        margin-bottom: 6px;
     }
-    h1 {
-        font-size: 20px;
+
+    header h1 {
+        font-size: 1rem;
+        white-space: normal;
+        text-align: center;
     }
-    button {
-        padding: 12px;
-        font-size: 18px;
-        margin: 5px 0;
+}
+
+/* 小型スマホ（横） */
+@media (max-width: 390px) and (orientation: landscape) {
+    #canvasTabs button {
+        font-size: 0.6rem;
+    }
+    #logo {
+        max-width: 100px;
+    }
+
+    header h1 {
+        font-size: 0.95rem;
+        white-space: normal;
+        text-align: center;
+    }
+}
+
+/* 小型スマホ（縦） */
+@media (min-width: 390px) and (max-width: 767px) and (orientation: portrait) {
+    #canvasTabs button {
+        font-size: 0.7rem;
+    }
+    #logo {
+        max-width: 140px;
+    }
+
+    header h1 {
+        font-size: 1.1rem;
+        white-space: normal;
+        text-align: center;
+    }
+}
+
+/* 小型スマホ（横） */
+@media (min-width: 390px) and (max-width: 767px) and (orientation: landscape) {
+    #canvasTabs button {
+        font-size: 0.7rem;
+    }
+    #logo {
+        max-width: 140px;
+    }
+
+    header h1 {
+        font-size: 1.1rem;
+        white-space: normal;
+        text-align: center;
+    }
+}
+
+/* タブレット（縦） */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+    #canvasTabs button {
+        font-size: 0.85rem;
+    }
+}
+
+/* タブレット（横） */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+    #canvasTabs button {
+        font-size: 0.8rem;
+    }
+}
+
+/* 小型デスクトップ（縦） */
+@media (min-width: 1024px) and (max-width: 1279px) and (orientation: portrait) {
+    #canvasTabs button {
+        font-size: 0.9rem;
+    }
+}
+
+/* 小型デスクトップ（横） */
+@media (min-width: 1024px) and (max-width: 1279px) and (orientation: landscape) {
+    #canvasTabs button {
+        font-size: 0.95rem;
+    }
+}
+
+/* 大型デスクトップ（縦・横） */
+@media (min-width: 1280px) {
+    #canvasTabs button {
+        font-size: 1rem;
     }
 }

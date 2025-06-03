@@ -70,12 +70,3 @@ self.addEventListener('activate', event => {
         })
     );
 });
-
-// 戻るボタン用の処理（UI側で使用）
-function tryGoBack() {
-    if (window.history.length > 1) {
-        history.back();
-    } else {
-        window.close(); // 一部ブラウザではウィンドウを閉じられない場合あり
-    }
-}

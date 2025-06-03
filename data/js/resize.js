@@ -1,49 +1,148 @@
 // resize.js
 
-// ■ リサイズ
-function resizeCanvas() {
-    const canvasAll = document.getElementById('canvasAll');
-    const canvasGraph = document.getElementById('canvasGraph');
-    const canvasAngle = document.getElementById('canvasAngle');
+//window.addEventListener('load', resizeAndRedrawActiveCanvas);
+//window.addEventListener('resize', resizeAndRedrawActiveCanvas);
+//
+//// ■ 指定Canvasをリサイズ
+//function resizeCanvas(canvas) 
+//{
+//    const rect = canvas.getBoundingClientRect();
+//    const dpr = window.devicePixelRatio || 1;
+//
+//    const displayWidth = Math.round(rect.width * dpr);
+//    const displayHeight = Math.round(rect.height * dpr);
+//
+//    const needResize = canvas.width !== displayWidth || canvas.height !== displayHeight;
+//    if (needResize) 
+//    {
+//        canvas.width = displayWidth;
+//        canvas.height = displayHeight;
+//    }
+//    return needResize;
+//}
+//
+//// ■ アクティブタブのキャンバスをリサイズ・再描画
+//function resizeAndRedrawActiveCanvas() 
+//{
+//    const activeTab = document.querySelector('#canvasTabs .active')?.id.replace('tab_', '');
+//    if (!activeTab) return;
+//
+//    const canvas = document.getElementById(`canvas${activeTab.charAt(0).toUpperCase()}${activeTab.slice(1)}`);
+//    if (!canvas) return;
+//
+//    const resized = resizeCanvas(canvas);
+//    if (resized) 
+//    {
+//        const lastA = window.A_vals?.[window.A_vals.length - 1] ?? 0;
+//        const lastB = window.B_vals?.[window.B_vals.length - 1] ?? 0;
+//        const lastC = window.C_vals?.[window.C_vals.length - 1] ?? 0;
+//        const lastD = window.D_vals?.[window.D_vals.length - 1] ?? 0;
+//        const angle = window.Angle ?? 0;
+//
+//        window.updateActiveCanvas?.(lastA, lastB, lastC, lastD, angle);
+//    }
+//            }
+//
+// resize.js
 
-    const width = window.innerWidth;  // ウィンドウ幅を取得
-    const height = window.innerHeight; // ウィンドウ高さを取得
+// イベントリスナーでリサイズ処理を呼び出す
+//window.addEventListener('load', resizeAndRedrawActiveCanvas);
+//window.addEventListener('resize', resizeAndRedrawActiveCanvas);
+//
+//// ■ 指定Canvasをリサイズ
+//function resizeCanvas(canvas) {
+//    const rect = canvas.getBoundingClientRect();
+//    const dpr = window.devicePixelRatio || 1;
+//
+//    // CSSサイズをピクセルに変換して、canvasに適用する
+//    const displayWidth = Math.round(rect.width * dpr);
+//    const displayHeight = Math.round(rect.height * dpr);
+//
+//    // もしサイズが異なっていたら、canvasのピクセルサイズを更新
+//    const needResize = canvas.width !== displayWidth || canvas.height !== displayHeight;
+//    if (needResize) {
+//        canvas.width = displayWidth;
+//        canvas.height = displayHeight;
+//    }
+//
+//    return needResize;
+//}
+//
+//// ■ アクティブタブのキャンバスをリサイズ・再描画
+//function resizeAndRedrawActiveCanvas() {
+//    const activeTab = document.querySelector('#canvasTabs .active')?.id.replace('tab_', '');
+//    if (!activeTab) return;
+//
+//    // アクティブなタブに対応するキャンバスを取得
+//    const canvas = document.getElementById(`canvas${activeTab.charAt(0).toUpperCase()}${activeTab.slice(1)}`);
+//    if (!canvas) return;
+//
+//    // キャンバスがリサイズされたか確認
+//    const resized = resizeCanvas(canvas);
+//
+//    // リサイズされた場合は再描画
+//    if (resized) {
+//        // 最後のデータを取得
+//        const lastA = window.A_vals?.[window.A_vals.length - 1] ?? 0;
+//        const lastB = window.B_vals?.[window.B_vals.length - 1] ?? 0;
+//        const lastC = window.C_vals?.[window.C_vals.length - 1] ?? 0;
+//        const lastD = window.D_vals?.[window.D_vals.length - 1] ?? 0;
+//        const angle = window.Angle ?? 0;
+//
+//        // 再描画関数が存在する場合、再描画を実行
+//        if (window.updateActiveCanvas) {
+//            window.updateActiveCanvas(lastA, lastB, lastC, lastD, angle);
+//        }
+//    }
+//}
+// resize.js
 
-    // devicePixelRatio（高解像度ディスプレイ対応）
-    const ratio = window.devicePixelRatio || 1;
+// イベントリスナーでリサイズ処理を呼び出す
+window.addEventListener('load', resizeAndRedrawActiveCanvas);
+window.addEventListener('resize', resizeAndRedrawActiveCanvas);
 
-    // Canvasの表示サイズ（CSSで設定）
-    canvasAll.style.width = `${width}px`;
-    canvasAll.style.height = `${height / 2}px`;
+// ■ 指定Canvasをリサイズ
+function resizeCanvas(canvas) {
+    const dpr = window.devicePixelRatio || 1;
 
-    canvasGraph.style.width = `${width}px`;
-    canvasGraph.style.height = `${height / 2}px`;
+    // ウィンドウサイズに基づいて、canvasのサイズを設定
+    const displayWidth = Math.round(window.innerWidth * dpr);
+    const displayHeight = Math.round(window.innerHeight * dpr);
 
-    canvasAngle.style.width = `${width}px`;
-    canvasAngle.style.height = `${height / 2}px`;
+    // もしサイズが異なっていたら、canvasのピクセルサイズを更新
+    const needResize = canvas.width !== displayWidth || canvas.height !== displayHeight;
+    if (needResize) {
+        canvas.width = displayWidth;
+        canvas.height = displayHeight;
+    }
 
-    // 内部のピクセル数（devicePixelRatioを考慮）
-    canvasAll.width = width * ratio;
-    canvasAll.height = (height / 2) * ratio;
-
-    canvasGraph.width = width * ratio;
-    canvasGraph.height = (height / 2) * ratio;
-
-    canvasAngle.width = width * ratio;
-    canvasAngle.height = (height / 2) * ratio;
-
-    // コンテキストをスケーリング（解像度に合わせて）
-    const contextAll = canvasAll.getContext('2d');
-    const contextGraph = canvasGraph.getContext('2d');
-    const contextAngle = canvasAngle.getContext('2d');
-
-    // context.scaleは、描画時にピクセル比率を適用します
-    contextAll.scale(ratio, ratio);
-    contextGraph.scale(ratio, ratio);
-    contextAngle.scale(ratio, ratio);
+    return needResize;
 }
 
-// リサイズ時の処理を設定
-window.addEventListener('load', resizeCanvas);
-window.addEventListener('resize', resizeCanvas);
+// ■ アクティブタブのキャンバスをリサイズ・再描画
+function resizeAndRedrawActiveCanvas() {
+    const activeTab = document.querySelector('#canvasTabs .active')?.id.replace('tab_', '');
+    if (!activeTab) return;
 
+    // アクティブなタブに対応するキャンバスを取得
+    const canvas = document.getElementById(`canvas${activeTab.charAt(0).toUpperCase()}${activeTab.slice(1)}`);
+    if (!canvas) return;
+
+    // キャンバスがリサイズされたか確認
+    const resized = resizeCanvas(canvas);
+
+    // リサイズされた場合は再描画
+    if (resized) {
+        // 最後のデータを取得
+        const lastA = window.A_vals?.[window.A_vals.length - 1] ?? 0;
+        const lastB = window.B_vals?.[window.B_vals.length - 1] ?? 0;
+        const lastC = window.C_vals?.[window.C_vals.length - 1] ?? 0;
+        const lastD = window.D_vals?.[window.D_vals.length - 1] ?? 0;
+        const angle = window.Angle ?? 0;
+
+        // 再描画関数が存在する場合、再描画を実行
+        if (window.updateActiveCanvas) {
+            window.updateActiveCanvas(lastA, lastB, lastC, lastD, angle);
+        }
+    }
+}

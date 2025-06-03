@@ -3,11 +3,29 @@
 window.openSettings = openSettings;
 let isWifiOn = false;
 
+document.addEventListener('DOMContentLoaded', () => 
+{
+    // /* [LOG_TRACE] */  tracelog();
+
+    const reloadBtn = document.getElementById('reloadButton');
+    const settingsBtn = document.getElementById('settingsIconButton');
+
+    reloadBtn.addEventListener('click', () => 
+    {
+        location.reload();
+    });
+
+    settingsBtn.addEventListener('click', () => 
+    {
+        window.openSettings();
+    });
+    // キーボードフォーカス時のスタイルを明示的に管理したい場合はここに追記可能
+});
+
 // ■ 設定モーダル操作
 function openSettings() 
 {
-    /* [LOG_TRACE] */
-    tracelog();
+    // /* [LOG_TRACE] */  tracelog();
 
     document.getElementById('settingsModal').style.display = "block";
 }
@@ -15,8 +33,7 @@ function openSettings()
 // ■ ページタイトル変更
 function updateApplication() 
 {
-    /* [LOG_TRACE] */
-    tracelog();
+    // /* [LOG_TRACE] */  tracelog();
 
     const product = document.getElementById("product").value;
     const titleElement = document.querySelector("title");
@@ -39,6 +56,8 @@ function updateApplication()
 // ■ 
 function closeSettings(event) 
 {
+    // /* [LOG_TRACE] */  tracelog();
+
     if (event) event.stopPropagation();
     document.getElementById('settingsModal').style.display = "none";
 }
@@ -46,6 +65,8 @@ function closeSettings(event)
 // ■ 
 function enableABZDisplay(enable) 
 {
+    // /* [LOG_TRACE] */  tracelog();
+
     const display = document.getElementById('abzDisplay');
     if (display) 
     {
@@ -56,8 +77,7 @@ function enableABZDisplay(enable)
 // ■ チェックボックスの状態を取得
 function toggleGraph() 
 {
-    /* [LOG_TRACE] */
-    tracelog();
+    // /* [LOG_TRACE] */  tracelog();
 
     const showSin = document.getElementById('sinCheckbox').checked;
     const showCos = document.getElementById('cosCheckbox').checked;
@@ -71,6 +91,8 @@ function toggleGraph()
 // ■ START/STOPボタン切替
 function toggleWifi() 
 {
+    // /* [LOG_TRACE] */  tracelog();
+
     const button = document.getElementById('wifiButton');
     if (isWifiOn) 
     {
