@@ -11,12 +11,12 @@ const COLOR_WHITE = 'rgba(255, 255, 255, 1)';
 const COLOR_BLACK = 'rgba(0, 0, 0, 1)';
 const COLOR_RED   = 'rgba(255, 0, 0, 1)';
 const Y_MIN    = 0;
-const Y_MAX    = 5000;
+const Y_MAX    = 4000;
 const Y_MARGIN = 0;
 const DRAW_Y_MIN   = Y_MIN - (Y_MAX * Y_MARGIN);
 const DRAW_Y_MAX   = Y_MAX + (Y_MAX * Y_MARGIN);
 const DRAW_Y_RANGE = DRAW_Y_MAX - DRAW_Y_MIN;
-const VOLTAGE_REF = 5.0;
+const VOLTAGE_REF = 3.3;
 
 const maxDataPoints = 100;
 const A_vals = Array(maxDataPoints).fill(0);

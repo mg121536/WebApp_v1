@@ -1,4 +1,5 @@
 // calibration.js
+// キャリブレーション設定
 
 let sinMax = 2000;
 let sinMin = -2000;
@@ -6,30 +7,32 @@ let cosMax = 2000;
 let cosMin = -2000;
 let hoverTarget = null;
 
-const VALUE_MAX = 5000;
-const VALUE_MIN = -5000;
+const VALUE_MAX = 6000;
+const VALUE_MIN = 0;
 const VALUE_RANGE = VALUE_MAX - VALUE_MIN;
-const canvas = document.getElementById('waveformCanvas');
+const canvas = document.getElementById('waveform-canvas');
 const ctx = canvas.getContext('2d');
 const WIDTH = canvas.width;
 const HEIGHT = canvas.height;
 
-// ■ [Event] 初期化
+// 変換・座標関連
+// ■ 値（mV）をCanvasのY座標に変換
 function toCanvasY(value) {
   return HEIGHT - ((value - VALUE_MIN) / VALUE_RANGE) * HEIGHT;
 }
 
-// ■ [Event] 初期化
+// ■ CanvasのY座標を値（mV）に変換
 function toValueY(y) {
   return ((HEIGHT - y) / HEIGHT) * VALUE_RANGE + VALUE_MIN;
 }
 
-// ■ [Event] 初期化
+// ■ 角度（度）をCanvasのX座標に変換
 function toCanvasX(deg) {
   return (deg / 360) * WIDTH;
 }
 
-// ■ [Event] 初期化
+// 描画関連
+// ■ 指定位置にラベル付き吹き出しを描画
 function drawLabel(yCanvas, value, color) {
   const label = `${value} mV`;
   ctx.font = "12px sans-serif";
@@ -47,7 +50,7 @@ function drawLabel(yCanvas, value, color) {
   ctx.fillStyle = "#fff";
   ctx.strokeStyle = color;
   ctx.beginPath();
-  ctx.roundRect(x - 5, y - 10, textWidth + 10, 20, 5); // 吹き出し
+  ctx.roundRect(x - 5, y - 10, textWidth + 10, 20, 5);
   ctx.fill();
   ctx.stroke();
 
@@ -57,7 +60,7 @@ function drawLabel(yCanvas, value, color) {
   ctx.shadowBlur = 0;
 }
 
-// ■ [Event] 初期化
+// ■ SIN/COS波形とグリッド、ラベルを一括で描画
 function drawWaveform() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
   ctx.fillStyle = "#fff";
@@ -93,7 +96,7 @@ function drawWaveform() {
   drawYAxisMarkers();
 }
 
-// ■ 背景グリッド描画
+// ■ 背景の縦横グリッド線を描画
 function drawGrid() {
   const xSteps = 12; // 30度ごと
   const ySteps = 10; // mV 1000単位で分割
@@ -125,9 +128,9 @@ function drawGrid() {
   ctx.restore();
 }
 
-// ■ [Event] 初期化
+// ■ Y軸の目盛りとラベルを描画
 function drawYAxisMarkers() {
-  const steps = 5; // 例: 5分割（5000, 2500, 0, -2500, -5000）
+  const steps = 12;
   const stepVal = (VALUE_MAX - VALUE_MIN) / steps;
   ctx.save();
   ctx.font = "10px sans-serif";
@@ -146,7 +149,7 @@ function drawYAxisMarkers() {
   ctx.restore();
 }
 
-// ■ 波形描画
+// ■  SIN/COSの波形本体を描画
 function drawSignal(max, min, phaseDeg, color, label) {
   const center = (max + min) / 2;
   const amplitudeTop = max - center;
@@ -159,7 +162,7 @@ function drawSignal(max, min, phaseDeg, color, label) {
   ctx.lineCap = "round";
 
   ctx.beginPath();
-  for (let deg = 0; deg <= 360; deg += 1) {  // ステップを 5→1 にして滑らかに
+  for (let deg = 0; deg <= 360; deg += 1) {
     const rad = (deg + phaseDeg) * Math.PI / 180;
     const sinVal = Math.sin(rad);
     const value = sinVal >= 0 ? center + sinVal * amplitudeTop : center + sinVal * amplitudeBottom;
@@ -188,38 +191,47 @@ function drawSignal(max, min, phaseDeg, color, label) {
   ctx.restore();
 }
 
-
-// ■ [Event] 初期化
+// UI連動・更新
+// ■ 入力値をもとに波形を再描画
 function updateWaveform() {
   sinMax = parseInt(document.getElementById('sinMax').value);
   sinMin = parseInt(document.getElementById('sinMin').value);
   cosMax = parseInt(document.getElementById('cosMax').value);
   cosMin = parseInt(document.getElementById('cosMin').value);
 
-  document.getElementById('sinMaxLabel').textContent = sinMax;
-  document.getElementById('sinMinLabel').textContent = sinMin;
-  document.getElementById('cosMaxLabel').textContent = cosMax;
-  document.getElementById('cosMinLabel').textContent = cosMin;
+  const sinMaxInput = document.getElementById('sin_max_input');
+  const sinMinInput = document.getElementById('sin_min_input');
+  const cosMaxInput = document.getElementById('cos_max_input');
+  const cosMinInput = document.getElementById('cos_min_input');
+
+  if (sinMaxInput) sinMaxInput.value = sinMax;
+  if (sinMinInput) sinMinInput.value = sinMin;
+  if (cosMaxInput) cosMaxInput.value = cosMax;
+  if (cosMinInput) cosMinInput.value = cosMin;
 
   drawWaveform();
 }
 
-// ■ [Event] 初期化
+// ■ スライダーとテキスト入力を連動
 function addSyncBehavior(rangeId, inputId, callback) {
   const range = document.getElementById(rangeId);
   const input = document.getElementById(inputId);
   if (!range || !input) return;
 
+  // スライダーのイベントリスナー
   range.addEventListener('input', () => {
     input.value = range.value;
-    callback();
+    callback();  // 波形の再描画
   });
+
+  // 入力フィールドのイベントリスナー
   input.addEventListener('input', () => {
     range.value = input.value;
-    callback();
+    callback();  // 波形の再描画
   });
 }
 
+// 設定の保存・読み込み
 // 設定保存・初期化・復元
 const settingIds = [
   'sinMax', 'sinMin', 'cosMax', 'cosMin',
@@ -229,7 +241,7 @@ const settingIds = [
   'polePairs'
 ];
 
-// ■ [Event] 初期化
+// ■ 各種設定値をlocalStorageに保存
 function saveSettings() {
   const settings = {};
   settingIds.forEach(id => {
@@ -240,13 +252,13 @@ function saveSettings() {
   alert('設定を保存しました。');
 }
 
-// ■ [Event] 初期化
+// ■ 保存設定を削除しページをリロード
 function resetSettings() {
   localStorage.removeItem('encoderSettings');
   location.reload();
 }
 
-// ■ [Event] 初期化
+// ■ localStorageから設定を復元し反映
 function restoreSettings() {
   const saved = localStorage.getItem('encoderSettings');
   if (!saved) return;
@@ -262,8 +274,8 @@ function restoreSettings() {
   updateWaveform();
 }
 
-document.getElementById('saveSettings')?.addEventListener('click', saveSettings);
-document.getElementById('resetSettings')?.addEventListener('click', resetSettings);
+document.getElementById('save-settings')?.addEventListener('click', saveSettings);
+document.getElementById('reset-settings')?.addEventListener('click', resetSettings);
 window.addEventListener('DOMContentLoaded', () => {
   restoreSettings();
   updateWaveform();
@@ -274,6 +286,14 @@ addSyncBehavior('sinMax', 'sin_max_input', updateWaveform);
 addSyncBehavior('sinMin', 'sin_min_input', updateWaveform);
 addSyncBehavior('cosMax', 'cos_max_input', updateWaveform);
 addSyncBehavior('cosMin', 'cos_min_input', updateWaveform);
+addSyncBehavior('sinMax', 'sin-max-secondary', updateWaveform);
+addSyncBehavior('sinMin', 'sin-min-secondary', updateWaveform);
+addSyncBehavior('cosMax', 'cos-max-secondary', updateWaveform);
+addSyncBehavior('cosMin', 'cos-min-secondary', updateWaveform);
+addSyncBehavior('sin-max-secondary', 'sin-max_input', updateWaveform);
+addSyncBehavior('sin-min-secondary', 'sin_min_input', updateWaveform);
+addSyncBehavior('cos-max-secondary', 'cos_max_input', updateWaveform);
+addSyncBehavior('cos-min-secondary', 'cos_min_input', updateWaveform);
 addSyncBehavior('sin_acquired_max', 'sin_acquired_max_input', () => {});
 addSyncBehavior('sin_acquired_min', 'sin_acquired_min_input', () => {});
 addSyncBehavior('cos_acquired_max', 'cos_acquired_max_input', () => {});
@@ -282,6 +302,8 @@ addSyncBehavior('cos_acquired_min', 'cos_acquired_min_input', () => {});
 // ==== Canvasドラッグ対応 ====
 let draggingTarget = null;
 
+
+// ■ マウス/タッチの押下でドラッグ対象を決定
 canvas.addEventListener("mousedown", (e) => {
   const y = e.offsetY;
   const pairs = [
@@ -301,7 +323,7 @@ canvas.addEventListener("mousedown", (e) => {
   }
 });
 
-// ■ [Event] 初期化
+// ■ ドラッグ中の対象値を変更し波形を更新
 canvas.addEventListener("mousemove", (e) => {
   const y = e.offsetY;
 
@@ -355,12 +377,12 @@ canvas.addEventListener("mousemove", (e) => {
   }
 });
 
-// ■ [Event] 初期化
+// ■ ドラッグ操作の終了
 canvas.addEventListener("mouseup", () => {
   draggingTarget = null;
 });
 
-// ■ [Event] 初期化
+// ■ マウス/タッチの押下でドラッグ対象を決定
 canvas.addEventListener("touchstart", (e) => {
   const touch = e.touches[0];
   const rect = canvas.getBoundingClientRect();
@@ -384,7 +406,7 @@ canvas.addEventListener("touchstart", (e) => {
   }
 }, { passive: false });
 
-// ■ [Event] 初期化
+// ■ ドラッグ中の対象値を変更し波形を更新
 canvas.addEventListener("touchmove", (e) => {
   if (!draggingTarget) return;
 
@@ -418,16 +440,41 @@ canvas.addEventListener("touchmove", (e) => {
   document.getElementById("sinMin").value = sinMin;
   document.getElementById("cosMax").value = cosMax;
   document.getElementById("cosMin").value = cosMin;
-  document.getElementById("sin_max_input").value = sinMax;
-  document.getElementById("sin_min_input").value = sinMin;
-  document.getElementById("cos_max_input").value = cosMax;
-  document.getElementById("cos_min_input").value = cosMin;
+  document.getElementById("sin-max_input").value = sinMax;
+  document.getElementById("sin-min_input").value = sinMin;
+  document.getElementById("cos-max_input").value = cosMax;
+  document.getElementById("cos-min_input").value = cosMin;
 
   updateWaveform();
   e.preventDefault();
 }, { passive: false });
 
-// ■ [Event] 初期化
+// ■ ドラッグ操作の終了
 canvas.addEventListener("touchend", () => {
   draggingTarget = null;
 });
+
+// ■ スライダーと数値入力を同期
+function syncSliderWithInput(sliderId, inputId) {
+    const slider = document.getElementById(sliderId);
+    const input = document.getElementById(inputId);
+    
+    slider.addEventListener('input', function() {
+        input.value = slider.value;
+        updateWaveform();
+    });
+
+    input.addEventListener('input', function() {
+        slider.value = input.value;
+        updateWaveform()
+    });
+}
+
+syncSliderWithInput('sinMax', 'sin-max-secondary');
+syncSliderWithInput('sinMin', 'sin-min-secondary');
+syncSliderWithInput('cosMax', 'cos-max-secondary');
+syncSliderWithInput('cosMin', 'cos-min-secondary');
+syncSliderWithInput('sinMax', 'sin-max_input');
+syncSliderWithInput('sinMin', 'sin-min_input');
+syncSliderWithInput('cosMax', 'cos-max_input');
+syncSliderWithInput('cosMin', 'cos-min_input');

@@ -36,14 +36,18 @@ window.startWifi = function startMockWifi()
                                 SinN:${window.C.toFixed(0)}, 
                                 CosN:${window.D.toFixed(0)}, 
                                 Angle:${window.angle.toFixed(1)}°`);
-        customLog(
-            'debug',
-            `Sin=${String(window.A.toFixed(0)).padStart(5)}  ` +
-            `Cos=${String(window.B.toFixed(0)).padStart(5)}  ` +
-            `SinN=${String(window.C.toFixed(0)).padStart(5)}  ` +
-            `CosN=${String(window.D.toFixed(0)).padStart(5)}  ` +
-            `Angle=${String(window.angle.toFixed(1)).padStart(6)}`
-        );
+         const activeTab = getActiveTab();
+         if (activeTab === 'console') 
+         {
+             customLog(
+                         'debug',
+                         `Sin=${String(A.toFixed(0)).padStart(5)}  ` +
+                         `Cos=${String(B.toFixed(0)).padStart(5)}  ` +
+                         `SinN=${String(C.toFixed(0)).padStart(5)}  ` +
+                         `CosN=${String(D.toFixed(0)).padStart(5)}  ` +
+                         `Angle=${String(angle.toFixed(1)).padStart(6)}`
+                     );
+         }
     }, MOCK_MAX_INTERVAL_MS);
 };
 

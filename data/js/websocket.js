@@ -50,6 +50,18 @@ window.startWifi = function startWifi()
                                     SinN:${C.toFixed(0)}, 
                                     CosN:${D.toFixed(0)}, 
                                     Angle:${angle.toFixed(1)}°`);
+                const activeTab = getActiveTab();
+                if (activeTab === 'console') 
+                {
+                    customLog(
+                                'debug',
+                                `Sin=${String(A.toFixed(0)).padStart(5)}  ` +
+                                `Cos=${String(B.toFixed(0)).padStart(5)}  ` +
+                                `SinN=${String(C.toFixed(0)).padStart(5)}  ` +
+                                `CosN=${String(D.toFixed(0)).padStart(5)}  ` +
+                                `Angle=${String(angle.toFixed(1)).padStart(6)}`
+                            );
+                }
             } 
             else if (typeof event.data === "string") 
             {
